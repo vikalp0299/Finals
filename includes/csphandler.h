@@ -1,5 +1,5 @@
-#ifndef CSPTOAUTHSERV_H
-#define CSPTOAUTHSERV_H
+#ifndef CSPHANDLER_H
+#define CSPHANDLER_H
 #include <string>
 using std::string;
 
