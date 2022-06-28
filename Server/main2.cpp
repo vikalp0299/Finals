@@ -43,7 +43,7 @@ int main(){
 	res.set_content(s,"text/plain");
 	});
 
-	
+	/*
 
 	
 	svr.Post("/reply",[&](const Request &req,Response &res){
@@ -232,5 +232,5 @@ int main(){
 		}
 
 });
-	svr.listen("DOhandler",17174);
+*/	svr.listen("DOhandler",17174);
 }
