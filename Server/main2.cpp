@@ -30,6 +30,7 @@ int main(){
 
 	User usr;
 	User* root = usr.inittree();
+	User* UserNode;
 	Server svr;
 	string r_addr;
 	int UID,FID;
@@ -42,8 +43,6 @@ int main(){
 		string s = "Welcome!\nAre you a new user?\nPlease type 'Yes' or 'No'";
 	res.set_content(s,"text/plain");
 	});
-
-	/*
 
 	
 	svr.Post("/reply",[&](const Request &req,Response &res){
@@ -232,5 +231,5 @@ int main(){
 		}
 
 });
-*/	svr.listen("DOhandler",17174);
+	svr.listen("DOhandler",17174);
 }
