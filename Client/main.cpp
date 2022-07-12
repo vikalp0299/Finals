@@ -11,8 +11,14 @@ void getlist(){
 	cout<<"1.Insert File\n2.Delete File\n3.Update\n4.Audit\n5.Exit...\n";
 }
 int main(){
-	string UID;
-	Client cli("Authenticator",17174);
+	string UID,FIDs;
+	#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
+		auto schema = "https://Authenticator:17174";
+	#else
+		auto schema = "http://Authenticator:17174";
+	#endif
+	Client cli(schema);
+	cli.set_ca_cert_path("/usr/local/cpp-httplib-0.10.8/example/ca-bundle.crt");
 	if(auto res = cli.Get("/hi")){
 		cout << res->body <<endl;
 		string resp;
@@ -50,7 +56,11 @@ int main(){
 										}
 
 									}
+									//Get the FID
+									FID =  cli.Get("/FID");
+									cout << "The obtained FID  is : "<< FID <<endl;
 									
+			
 								break;
 							}
 							case 2: {break;}
