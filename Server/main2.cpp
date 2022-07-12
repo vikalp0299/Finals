@@ -30,7 +30,7 @@ int main(){
 
 	User usr;
 	User* root = usr.inittree();
-	User* UserNode;
+	
 	Server svr;
 	string r_addr;
 	int UID,FID;
@@ -121,12 +121,12 @@ int main(){
 		root = usr.Ufind(root,UID,0,stoi(filename),hash.content,version.content);
 	string path = "/home/authenticator/Desktop/tmpstorage/"+to_string(UID)+"/"+filename;
 		
-		for(int i=0; i<2;i++){
-			switch(i){
+	
+			switch(0){
 				case 0:{
 						ofstream out(path);
 						out<<file.content;							
-						break;
+						
 				}
 				case 1:{
 						string hash = getMySHA(path.c_str());
@@ -137,7 +137,7 @@ int main(){
 			}
 
 					
-		}
+		
 	string s = "The File has been inserted to CSP\n";
 	res.set_content(s,"plain/text");
 });
@@ -182,19 +182,19 @@ int main(){
 		//update the temp file and send to update the file in csp 
 		string path = "/home/authenticator/Desktop/tmpstorage/"+to_string(UID)+"/"+File.filename;
 		//cout<<path<<endl;
-		for(int i=0;i<2;i++){
-			switch(i){
+		
+			switch(0){
 				case 0:{
 					ofstream out(path);
 					out<<File.content;
-					break;
+					
 				}
 				case 1:{
 					fileTransferHandler(UID,stoi(File.filename),2);
 					break;
 				}			
 			}
-		}
+		
 		
 
 });
@@ -204,11 +204,11 @@ int main(){
 
 	svr.Post("/audit",[&](const Request &req, Response &res){
 		auto fid = req.body;
-		for(int i=0;i<2;i++){
-			switch(i){
+		
+			switch(0){
 				case 0:{
 					fileTransferHandler(UID,stoi(fid),3);
-					break;
+					
 				}
 				case 1:{
 						string path = "/home/authenticator/Desktop/tmpstorage/"+to_string(UID)+"/"+fid;
@@ -228,7 +228,7 @@ int main(){
 						break;
 				}
 			}
-		}
+		
 
 });
 	svr.listen("DOhandler",17174);
