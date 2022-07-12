@@ -94,7 +94,7 @@ int main(){
 
 	svr.Get("/FID",[&](const Request &req, Response &res){
 		int fid;
-		bool exists;
+		bool exists=true;
 		do{ 
 			
 			fid=((rand()%100)+(rand()%100))%100;
