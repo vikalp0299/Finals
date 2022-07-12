@@ -139,7 +139,9 @@ int main(){
 				case 1:{
 						string hash = getMySHA(path.c_str());
 						cout<<"Recieved: "<<hash<<endl;
+						
 						fileTransferHandler(UID,stoi(filename),0);
+						cout<<"code reached"<<endl;						
 						break;					
 				}
 			}

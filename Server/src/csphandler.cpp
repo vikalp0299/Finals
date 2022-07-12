@@ -1,3 +1,4 @@
+#define CPPHTTPLIB_OPENSSL_SUPPORT
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -28,6 +29,7 @@ void error(const char *msg){
 
 void fileTransferHandler(int UID,int FID,int signal){
 	//sleep(3);
+	cout<<"code reach check2"<<endl;
 	string User,File,path,Fpath;
 	User = to_string(UID);
 	File = to_string(FID);
@@ -46,8 +48,14 @@ void fileTransferHandler(int UID,int FID,int signal){
 			return;
 		}
 	}
-
-	Client cli("CSPhandler",17171);
+	#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
+		auto schema = "https://CSPhandler:17171";
+	#else
+		auto schema = "http://CSPhandler:17171";
+	#endif
+	Client cli(schema);
+	cli.set_ca_cert_path("/usr/local/cpp-httplib-0.10.6/example/ca-bundle.crt");
+	cli.enable_server_certificate_verification(false);
 	if(auto res = cli.Get("/hi")){
 		cout<<res->status<<endl;
 		cout<<res->body<<endl;
@@ -56,7 +64,7 @@ void fileTransferHandler(int UID,int FID,int signal){
 		res.error();
 	}
 
-
+	cout<<"code reach check3"<<endl;
 	switch (signal)
 	{
 	case 0:{
@@ -64,6 +72,7 @@ void fileTransferHandler(int UID,int FID,int signal){
 		//cout<<Fpath;
 		ifstream ifs(Fpath);
 		stringstream buffer;
+		cout<<"code reach check4"<<endl;
 		buffer<<ifs.rdbuf();
 		//cout<<sen<<endl;
 		//cout<<1<<endl;
@@ -72,6 +81,7 @@ void fileTransferHandler(int UID,int FID,int signal){
 			{"File",buffer.str(),File,"application/octet-stream"}
 		};
 		cli.Post("/insert",item);
+		cout<<"code reach check5"<<endl;
 		break;
 	}
 
