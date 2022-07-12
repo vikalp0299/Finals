@@ -1,3 +1,4 @@
+#define CPPHTTPLIB_OPENSSL_SUPPORT
 #include <iostream>
 #include </usr/local/cpp-httplib-0.10.6/httplib.h>
 #include <fstream>
@@ -33,7 +34,11 @@ bool pathchk(string &s){
 
 int main(){
 
-  Server svr;
+ 	#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
+		SSLServer svr ("./Storage.pem","./Storage-key.pem");
+	#else
+  		Server svr;
+	#endif
   stringstream buffer;
   string r_addr, r_port;
   int UID,FID;  
