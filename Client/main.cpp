@@ -79,7 +79,15 @@ int main(){
 									
 								break;
 							}
-							case 2: {break;}
+							case 2: {
+									//Enter the file ID
+									cout<<"ENTER THE FID TO DELETE THE FILE"<<endl;
+									cin >>FID;
+									cout<<endl;
+									if(auto res = cli.Post("/delete",FID,"text/plain"))
+										cout<<res->body<<endl;					
+								break;
+							}
 							case 3: {break;}
 							case 4: {break;}
 							case 5: {
