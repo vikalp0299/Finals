@@ -1,3 +1,4 @@
+#define CPPHTTPLIB_OPENSSL_SUPPORT
 #include <iostream>
 #include <stdlib.h>
 #include <fstream>
@@ -31,7 +32,14 @@ int main(){
 	User usr;
 	User* root = usr.inittree();
 	
-	Server svr;
+	#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
+		SSLServer svr("./localhost.pem","./localhost-key.pem");
+	#else
+		Server svr;
+	#endif	
+	
+
+
 	string r_addr;
 	int UID,FID;
 	
