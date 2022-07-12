@@ -14,6 +14,7 @@
 #include "csphandler.h"
 #include "msql.h"
 #include "shachk.h"
+#include <cstdlib>
 
 namespace filesys = std::experimental::filesystem;
 using namespace std;
@@ -59,7 +60,8 @@ int main(){
 			bool exists;
 			do{	//check if the new UID already exists or not.		
 				
-				UID = ((rand()%rand())+(rand()%rand()))%100;
+				UID = abs(((rand()%rand())+(rand()%rand()))%100);
+				
 				exists= usr.Exists(root,UID,0,0);
 			}while(exists);
 			//insert the new value to the tree and sql.
@@ -105,7 +107,7 @@ int main(){
 		bool exists=true;
 		do{ 
 			
-			fid=((rand()%100)+(rand()%100))%100;
+			fid=abs(((rand()%100)+(rand()%100))%100);
 			exists = usr.Exists(root,UID,1,fid);
 		}while(exists);	
 		res.set_content(to_string(fid),"text/plain");			
