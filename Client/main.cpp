@@ -44,18 +44,21 @@ int main(){
 						switch(sig){
 							case 1: {
 									cout<<"Enter the full path to the file"<<endl;	
-									string fpath,hash;
+									string fpath,hash,directory;
 									vector<string>splt;
 									cin >>fpath;
 									boost::split(splt,fpath.c_str(),boost::is_any_of("/"));
+									for (int i=0;i<splt.size()-1;i++)
+										directory = directory+splt[i]+"/";
+									//cout<<directory<<endl;
 									
 									switch(0){
 										case 0: {
-													encrypt(splt[splt.size()-1]);
+													encrypt(directory,splt[splt.size()-1]);
 										}
 										case 1:{
 													fpath = "/home/do/Desktop/Finals/Client/Files/enc/enc_"+splt[splt.size()-1];
-													cout<<fpath<<endl;
+													//cout<<fpath<<endl;
 													hash = getMySHA(fpath.c_str());
 													cout<<"Hash to be sent: "<<hash<<endl;
 										}
@@ -88,7 +91,44 @@ int main(){
 										cout<<res->body<<endl;					
 								break;
 							}
-							case 3: {break;}
+							case 3: {
+									string version;
+									cout<<"ENTER THE FID TO UPDATE THE FILE"<<endl;
+									cin>>FID;
+									cout<<endl;
+									cout<<"ENTER THE UPDATED FILE PATH"<<endl;
+									string fpath,hash,directory;
+									vector<string>splt;
+									cin>>fpath;
+									cout<<"ENTER THE LATEST VERSION FOR THE FILE"<<endl;
+									cin>>version;
+									for (int i=0;i<splt.size()-1;i++)
+										directory = directory+splt[i]+"/";
+									switch(0){
+										case 0: {
+													encrypt(directory,splt[splt.size()-1]);
+										}
+										case 1:{
+													fpath = "/home/do/Desktop/Finals/Client/Files/enc/enc_"+splt[splt.size()-1];
+													//cout<<fpath<<endl;
+													hash = getMySHA(fpath.c_str());
+													cout<<"Hash to be sent: "<<hash<<endl;
+										}
+										
+									}
+								ifstream ifs(fpath);
+								stringstream buffer;
+								buffer<<ifs.rdbuf();
+								MultipartFormDataItems item ={
+									{"File",buffer.str(),FID,"application/octet-stream"},
+									{"Hash",hash,"",""},
+									{"Version",version,"",""}
+								};
+									if(auto res = cli.Post("/update",item))
+										cout<<res->body<<endl;
+									
+								break;
+							}
 							case 4: {break;}
 							case 5: {
 								cout<<"BYE..."<<endl;
