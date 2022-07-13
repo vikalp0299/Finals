@@ -60,7 +60,7 @@ void LoadPrivateKey(PrivateKey& key, const string& file = "/home/do/Desktop/Fina
 void LoadPublicKey(PublicKey& key, const string& file = "/home/do/Desktop/Finals/Client/Keys/ecies.public.key");
 
 
-void encrypt(string str){
+void encrypt(string dir,string str){
 	AutoSeededRandomPool prng;
 	ECIES<ECP>::Decryptor d0(prng, ASN1::secp256r1());
 	//PrintPrivateKey(d0.GetKey());
@@ -69,7 +69,7 @@ void encrypt(string str){
    // PrintPublicKey(e0.GetKey());
 
 	string enc_str= "/home/do/Desktop/Finals/Client/Files/enc/enc_"+str;
-	str = "/home/do/Desktop/Finals/Client/Files/plain/"+str;
+	str = dir+str;
 
 	SavePrivateKey(d0.GetPrivateKey());
     SavePublicKey(e0.GetPublicKey());
