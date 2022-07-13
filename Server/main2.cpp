@@ -243,5 +243,22 @@ int main(){
 		
 
 });
+	svr.Post("/retrieve",[&] (const Request &req, Response &res){
+		auto fid = req.body;
+		switch(0){
+			case 0:{
+				fileTransferHandler(UID,stoi(fid),4);
+			}
+			case 1:{
+				string fpath = "/home/authenticator/Desktop/tmpstorage/";
+				fpath += to_string(UID)+"/"+fid;
+				ifstream ifs(fpath);
+				stringstream buffer;
+				buffer<<ifs.rdbuf();
+				res.set_content(buffer.str(),"text/plain");
+			}
+		}
+		
+});
 	svr.listen("DOhandler",17174);
 }

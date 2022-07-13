@@ -131,6 +131,26 @@ void fileTransferHandler(int UID,int FID,int signal){
 		//cout<<endl<<"CECELION"<<endl;
 		break;
 	}
+	case 4:{
+		//Retrieve
+		MultipartFormDataItems item ={
+			{"UID",User,"",""},
+			{"FID",File,"",""}
+		};
+		if(auto res = cli.Post("/retrieve",item)){
+			Fpath += User;
+			auto str = res->body;
+			//cout<<str<<endl;
+			if(!pathexists(Fpath)){
+				mkdir(Fpath.c_str(),0777);
+			}
+			Fpath += "/"+File;
+			ofstream ofs(Fpath); 
+			ofs << str;
+		}
+		break;
+			
+	}
 	default:
 		break;
 	}
