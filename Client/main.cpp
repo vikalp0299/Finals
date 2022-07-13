@@ -10,7 +10,7 @@
 using namespace std;
 using namespace httplib;
 void getlist(){
-	cout<<"1.Insert File\n2.Delete File\n3.Update\n4.Audit\n5.Retrieve\n6.Exit...\n";
+	cout<<"1.Insert File\n2.Delete File\n3.Update\n4.Audit\n5.Retrieve\n6.FID List\n7.Exit...\n";
 }
 int main(){
 	string UID,FID;
@@ -171,7 +171,12 @@ int main(){
 									cout<<endl<<"FILE RETRIEVED\nDIR: /home/do/Desktop/Finals/Client/Files/Retrieved/"<<endl<<endl;
 									break;
 							}
-							case 6: {
+							case 6:{
+								if(auto res = cli.Get("/Files"))
+									cout<<res->body<<endl<<endl;
+								break;
+							}
+							case 7: {
 								cout<<"BYE..."<<endl;
 								exit(0);
 							}
