@@ -85,12 +85,14 @@ void updateFile(int fid,int uid, string hash, string version){
 	//MYSQL_RES *res;
 	//MYSQL_STMT *stmt;
 	//MYSQL_BIND bnd[2];
+	
 	string s;
 	connect();	
 	s = "Update Files SET Hash = \""+hash+"\", Version =\""+version+"\" WHERE FID = "+to_string(fid)+" AND UID = "+to_string(uid);
 	//s =  "INSERT into Verhash(SR,UID,FID,Hash,Version) Values("+to_string(sr)+","+to_string(uid)+","+to_string(fid)+",\""+hash+"\",\""+version+"\")";
 	cout<<s<<endl;
 	mysql_query(conn,s.c_str());
+	
 
 
 	//s.clear();

@@ -29,7 +29,7 @@ void error(const char *msg){
 
 void fileTransferHandler(int UID,int FID,int signal){
 	//sleep(3);
-	cout<<"code reach check2"<<endl;
+	
 	string User,File,path,Fpath;
 	User = to_string(UID);
 	File = to_string(FID);
@@ -64,7 +64,7 @@ void fileTransferHandler(int UID,int FID,int signal){
 		res.error();
 	}
 
-	cout<<"code reach check3"<<endl;
+	
 	switch (signal)
 	{
 	case 0:{
@@ -72,7 +72,7 @@ void fileTransferHandler(int UID,int FID,int signal){
 		//cout<<Fpath;
 		ifstream ifs(Fpath);
 		stringstream buffer;
-		cout<<"code reach check4"<<endl;
+		
 		buffer<<ifs.rdbuf();
 		//cout<<sen<<endl;
 		//cout<<1<<endl;
@@ -81,7 +81,7 @@ void fileTransferHandler(int UID,int FID,int signal){
 			{"File",buffer.str(),File,"application/octet-stream"}
 		};
 		cli.Post("/insert",item);
-		cout<<"code reach check5"<<endl;
+		
 		break;
 	}
 

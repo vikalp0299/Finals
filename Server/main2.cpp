@@ -185,7 +185,7 @@ int main(){
 		auto hash =  req.get_file_value("Hash");
 		auto version = req.get_file_value("Version");
 		auto File = req.get_file_value("File");
-
+		
 		//update hash and version detail on sqldb
 		updateFile(stoi(File.filename),UID,hash.content,version.content);
 
@@ -207,7 +207,7 @@ int main(){
 				}			
 			}
 		
-		
+		res.set_content("Updated","text/plain");
 
 });
 
