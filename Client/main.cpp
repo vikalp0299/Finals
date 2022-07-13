@@ -41,7 +41,7 @@ int main(){
 					vector<string>chk;
 					boost::split(chk,out.c_str(),boost::is_any_of("\n"));
 					if(chk[0] == "DISCONNECTING!"){exit(0);}
-					//implement for wrong UID
+					
 					do{
 						getlist();
 						int sig;
@@ -139,7 +139,13 @@ int main(){
 									
 								break;
 							}
-							case 4: {break;}
+							case 4: {
+										cout<<"ENTER THE FID TO AUDIT THAT FILE"<<endl;
+										cin>>FID;
+										if(auto res = cli.Post("/audit",FID,"text/plain"))
+												cout<<res->body<<endl;
+								break;
+							}
 							case 5: {
 								cout<<"BYE..."<<endl;
 								exit(0);
