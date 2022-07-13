@@ -80,7 +80,8 @@ void encrypt(string dir,string str){
 	
 	
 }
-void decrypt(string str){
+void decrypt(string dir,string str){
+	
 	AutoSeededRandomPool prng;
 	ECIES<ECP>::Decryptor d1;
     LoadPrivateKey(d1.AccessPrivateKey());
@@ -90,8 +91,10 @@ void decrypt(string str){
     LoadPublicKey(e1.AccessPublicKey());
     e1.GetPublicKey(). ThrowIfInvalid(prng, 3);
 	
-	string dec_str = "dec_"+str;
+	string dec_str =dir+"decrypt/dec_"+str;
+	str = dir+"recieved/"+str;
 	FileSource source(str.c_str(),true,new HexDecoder(new PK_DecryptorFilter(prng,d1,new FileSink(dec_str.c_str()))));
+	
 }
 
 

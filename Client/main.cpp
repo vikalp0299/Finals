@@ -10,7 +10,7 @@
 using namespace std;
 using namespace httplib;
 void getlist(){
-	cout<<"1.Insert File\n2.Delete File\n3.Update\n4.Audit\n5.Exit...\n";
+	cout<<"1.Insert File\n2.Delete File\n3.Update\n4.Audit\n5.Retrieve\n6.Exit...\n";
 }
 int main(){
 	string UID,FID;
@@ -140,13 +140,38 @@ int main(){
 								break;
 							}
 							case 4: {
+										//call audit
 										cout<<"ENTER THE FID TO AUDIT THAT FILE"<<endl;
 										cin>>FID;
 										if(auto res = cli.Post("/audit",FID,"text/plain"))
-												cout<<res->body<<endl;
+											cout<<res->body<<endl;							
+										
 								break;
 							}
-							case 5: {
+							case 5:{
+									//retrieve file
+									cout<<"ENTER THE FID TO RETRIEVE"<<endl;
+									cin >>FID;
+									if(auto res = cli.Post("/retrieve",FID,"text/plain")){
+										string fpath = "/home/do/Desktop/Finals/Client/Files/Retrieved/";
+										switch (0){
+											case 0: {
+												string path = fpath;
+												path += "recieved/"+FID;
+												ofstream ofs(path);
+												auto buffer = res->body;
+												ofs <<buffer;
+													
+											}
+											case 1: {
+												 decrypt(fpath,FID);
+											}
+										}	
+									}
+									cout<<endl<<"FILE RETRIEVED\nDIR: /home/do/Desktop/Finals/Client/Files/Retrieved/"<<endl<<endl;
+									break;
+							}
+							case 6: {
 								cout<<"BYE..."<<endl;
 								exit(0);
 							}

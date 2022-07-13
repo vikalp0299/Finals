@@ -4,5 +4,5 @@
 #include <string>
 using std::string;
 void encrypt(string,string);
-void decrypt(string);
+void decrypt(string,string);
 #endif	
