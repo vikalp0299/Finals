@@ -94,7 +94,7 @@ void fileTransferHandler(int UID,int FID,int signal){
 		if(auto res = cli.Post("/retrieve",item)){
 			Fpath += User;
 			auto str = res->body;
-			cout<<str<<endl;
+			//cout<<str<<endl;
 			if(!pathexists(Fpath)){
 				mkdir(Fpath.c_str(),0777);
 			}

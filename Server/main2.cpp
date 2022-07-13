@@ -225,7 +225,7 @@ int main(){
 				case 1:{
 						string path = "/home/authenticator/Desktop/tmpstorage/"+to_string(UID)+"/"+fid;
 						string hash = getMySHA(path.c_str());
-						cout<<hash<<endl;
+						cout<<"Generated Hash: "<<hash<<endl;
 						
 						string stored = usr.GetHash(root,UID,stoi(fid));
 						cout<<"Stored HASH:"<<stored<<endl;
