@@ -21,6 +21,7 @@ public:
 	File* FSearch(File*, int,int,string hash ={}, string version = {});
 	bool FileExists(File*,int);
 	string GetHash(File*);
+	string Freturnfiles(File*);
 };
 
 class User{
@@ -41,7 +42,7 @@ public:
 	bool Exists(User*, int,int,int);
 	User* Update(User*, int,int,string,string);
 	string GetHash(User*,int,int);
-	
+	File* GetBack(User*);
 };
  
 

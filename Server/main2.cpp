@@ -258,7 +258,20 @@ int main(){
 				res.set_content(buffer.str(),"text/plain");
 			}
 		}
-		
+	
+
+	
 });
+
+	svr.Get("/Files",[&] (const Request &req, Response &res){
+		User* node = usr.Ufind(root,UID,2);
+		File F; 
+		string resp, s  = F.Freturnfiles(usr.GetBack(node));
+		resp = "These are the following FIDs of the files stored by you:\n"+s;
+		res.set_content(resp,"text/plain");
+		
+
+});
+
 	svr.listen("DOhandler",17174);
 }

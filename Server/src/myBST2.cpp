@@ -244,6 +244,22 @@ void File::Finorder(File* root){
 	
     Finorder(root->right);
 }
+
+string File::Freturnfiles(File* root){
+	string s= "";
+	if(!root){
+        return s;
+    }
+    s= s + Freturnfiles(root->left);
+    s= s +to_string(root->FID)+" ";
+	
+   	s= s+ Freturnfiles(root->right);
+
+}
+File* User::GetBack(User* root){
+	return root->back;
+}
+
 File* File::FSearch(File* root,int fid,int sig,string hash, string version){
 	if(root==NULL){
         return root;
