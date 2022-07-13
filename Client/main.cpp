@@ -37,6 +37,7 @@ int main(){
 			}
 			if(auto res = cli.Post("/UID",UID,"text/plain")){
 					cout<<res->body<<endl;
+					//implement for wrong UID
 					do{
 						getlist();
 						int sig;
@@ -102,8 +103,11 @@ int main(){
 									cin>>fpath;
 									cout<<"ENTER THE LATEST VERSION FOR THE FILE"<<endl;
 									cin>>version;
+									boost::split(splt,fpath.c_str(),boost::is_any_of("/"));
+									
 									for (int i=0;i<splt.size()-1;i++)
 										directory = directory+splt[i]+"/";
+										
 									switch(0){
 										case 0: {
 													encrypt(directory,splt[splt.size()-1]);
@@ -116,6 +120,7 @@ int main(){
 										}
 										
 									}
+								
 								ifstream ifs(fpath);
 								stringstream buffer;
 								buffer<<ifs.rdbuf();
@@ -124,6 +129,7 @@ int main(){
 									{"Hash",hash,"",""},
 									{"Version",version,"",""}
 								};
+								
 									if(auto res = cli.Post("/update",item))
 										cout<<res->body<<endl;
 									

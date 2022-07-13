@@ -61,21 +61,23 @@ void LoadPublicKey(PublicKey& key, const string& file = "/home/do/Desktop/Finals
 
 
 void encrypt(string dir,string str){
+	
 	AutoSeededRandomPool prng;
 	ECIES<ECP>::Decryptor d0(prng, ASN1::secp256r1());
 	//PrintPrivateKey(d0.GetKey());
 
     ECIES<ECP>::Encryptor e0(d0);
    // PrintPublicKey(e0.GetKey());
-
+	
 	string enc_str= "/home/do/Desktop/Finals/Client/Files/enc/enc_"+str;
 	str = dir+str;
 
 	SavePrivateKey(d0.GetPrivateKey());
     SavePublicKey(e0.GetPublicKey());
+	
 	//StringSource ss1 (message, true, new PK_EncryptorFilter(prng, e0, new StringSink(em0) ) );
 	FileSource source(str.c_str(),true, new PK_EncryptorFilter(prng,e0, new HexEncoder(new FileSink(enc_str.c_str()))));
-
+	
 	
 }
 void decrypt(string str){
