@@ -37,6 +37,10 @@ int main(){
 			}
 			if(auto res = cli.Post("/UID",UID,"text/plain")){
 					cout<<res->body<<endl;
+					string out = res->body;
+					vector<string>chk;
+					boost::split(chk,out.c_str(),boost::is_any_of("\n"));
+					if(chk[0] == "DISCONNECTING!"){exit(0);}
 					//implement for wrong UID
 					do{
 						getlist();
