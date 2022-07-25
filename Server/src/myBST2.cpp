@@ -254,7 +254,7 @@ string File::Freturnfiles(File* root){
     s= s +to_string(root->FID)+" ";
 	
    	s= s+ Freturnfiles(root->right);
-
+	return s;
 }
 File* User::GetBack(User* root){
 	return root->back;

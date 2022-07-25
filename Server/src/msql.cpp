@@ -17,17 +17,58 @@ void connect(){
     }
 }
 
-void insertUser(int uid, string ipaddr){
+void insertUser(int uid, string ipaddr,string passhash){
 	
 	connect();
 	
 	string s;
-    s="INSERT INTO User(UID,IP) VALUES("+to_string(uid)+",\""+ipaddr+"\")";
+    s="INSERT INTO User(UID,IP,PasswordHash,Counter) VALUES("+to_string(uid)+",\""+ipaddr+"\",\""+passhash+"\","+to_string(0)+")";
 	mysql_query(conn,s.c_str());
 	cout<<s<<endl;
    
 
 
+}
+int getCount(int uid,string ip){
+	connect();
+	MYSQL_ROW row;
+	MYSQL_RES *res;
+	string s;
+	s= "Select Counter from User where UID ="+to_string(uid)+" and IP =\""+ip+"\"";
+	
+	mysql_query(conn,s.c_str());
+	res= mysql_use_result(conn);
+	row = mysql_fetch_row(res);
+	
+	return atoi(row[0]);
+	
+}
+void updateCount(int uid,string ip){
+	
+	MYSQL_ROW row;
+	MYSQL_RES *res;
+	string s;
+	int count = getCount(uid,ip);
+	count++;
+	connect();
+	cout<<count<<endl<<"code reach check"<<endl;
+	s= "Update User Set Counter = "+to_string(count)+" where UID = "+to_string(uid);
+	cout<<s<<endl;
+	mysql_query(conn,s.c_str());
+	 
+
+}
+string getPass(int uid,string ip){
+	connect();
+	MYSQL_ROW row;
+	MYSQL_RES *res;
+	
+	string s;
+	s= "Select PasswordHash from User where UID = "+to_string(uid)+" and IP =\""+ip+"\"";
+	mysql_query(conn,s.c_str());
+	res= mysql_use_result(conn);
+	row = mysql_fetch_row(res);
+	return row[0];
 }
 void deleteUser(int uid){
 	connect();

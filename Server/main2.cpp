@@ -15,6 +15,8 @@
 #include "msql.h"
 #include "shachk.h"
 #include <cstdlib>
+#include <openssl/sha.h>
+#include "getSHA.h"
 
 namespace filesys = std::experimental::filesystem;
 using namespace std;
@@ -31,7 +33,9 @@ bool pathchk(string &s){
 int main(){
 
 	User usr;
+	cout<<"Initialising File Tree"<<endl;
 	User* root = usr.inittree();
+	cout<<"COMPLETED..."<<endl<<"Starting Server..."<<endl;
 	
 	#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
 		SSLServer svr("./localhost.pem","./localhost-key.pem");
@@ -59,16 +63,11 @@ int main(){
 		if(reply == "Yes" || reply =="yes"){
 			bool exists;
 			do{	//check if the new UID already exists or not.		
-				
+				string pass;
 				UID = abs(((rand()%rand())+(rand()%rand()))%100);
-				
 				exists= usr.Exists(root,UID,0,0);
 			}while(exists);
 			//insert the new value to the tree and sql.
-			root = usr.Uinsert(root,UID,r_addr);
-			insertUser(UID,r_addr);
-			string path = "/home/authenticator/Desktop/tmpstorage/"+to_string(UID);
-			mkdir(path.c_str(),0777);
 			res.set_content(to_string(UID),"text/plain");
 		}
 		else{//Ask for User ID
@@ -79,7 +78,48 @@ int main(){
 	});
 	
 
-
+	svr.Get("/Pass",[&] (const Request &req, Response &res){
+		string pass = "";
+		for (int i=0;i<8;i++){
+			int num = abs(1+rand()%4);
+			string s;
+			switch(num){
+				case 1:{
+						string alp = "abcdefghijklmnopqrstuvwxyz";
+						int rnd = abs(rand()%26);
+						s = alp[rnd];
+						break;				
+				}
+				case 2:{
+						string alp = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+						int rnd = abs(rand()%26);
+						s = alp[rnd];
+						break;
+				}
+				case 3:{
+						string alp = "0123456789";
+						int rnd = abs(rand()%10);
+						s = alp[rnd];
+						break;
+				}
+				case 4:{
+						string alp = "#$%&@^";
+						int rnd = abs(rand()%6);
+						s = alp[rnd];
+						break;
+				}
+			}
+			pass += s;
+			
+		}
+		string hpass =getSHA(pass);
+		cout<<hpass<<endl;
+		root = usr.Uinsert(root,UID,r_addr);
+		insertUser(UID,r_addr,hpass);
+		string path = "/home/authenticator/Desktop/tmpstorage/"+to_string(UID);
+		mkdir(path.c_str(),0777);
+		res.set_content(pass,"text/plain");
+	});
 
 	svr.Post("/UID",[&] (const	Request &req,Response &res){
 		//Recieve the user Id
@@ -93,12 +133,35 @@ int main(){
 			res.set_content(s,"text/plain");	
 		}
 		else{//if the UserID is there
-			string s = "Please select from the following options\n";
+			string s = "Please Enter Password\n";
 			res.set_content(s,"text/plain");
+
 		}
 
 });
-
+	svr.Post("/sndPass",[&](const Request &req,Response &res){
+		string pass = req.body;
+		
+		string hpass = getSHA(pass);
+		
+		int count  = getCount(UID,r_addr);
+		
+		if(count >=3){
+			res.set_content("BANNED!\nUSER ENTERED WRONG PASSWORD THRICE!!\n","text/plain");
+		}
+		else{
+			string shpass = getPass(UID,r_addr);
+			if(shpass == hpass){
+				res.set_content("Please select from the following options","text/plain");
+			
+			}
+			else{
+				updateCount(UID,r_addr);
+				cout<<"code reach check2"<<endl;
+				res.set_content("No","text/plain");
+			}
+		}
+});
 
 
 
