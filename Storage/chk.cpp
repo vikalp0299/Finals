@@ -54,14 +54,14 @@ int main(){
 			string fpath = "/home/storage/Desktop/storage/"+UID;
 			if(!pathchk(fpath)){
 				mkdir(fpath.c_str(),0777);
-				cout<<"GG"<<endl;			
+				cout<<"Directory Created"<<endl;			
 			}
 
 			fpath+="/"+filename;
 			
 			ofstream ofs(fpath);
 			ofs<<file.content;	
-			
+			cout<<"File added"<<endl;
 			res.set_content("done","text/plain");	
 	});
   
@@ -72,9 +72,9 @@ int main(){
 			auto fidf=fid.content;
 	
 			string fpath = "/home/storage/Desktop/storage/"+uidf+"/"+fidf;
-			cout<<fpath<<endl;
+			
 			if(pathchk(fpath)){
-				cout<<"1"<<endl;
+				
 				bool status = filesys::remove(fpath);
 				if(status ==true)	
 					res.set_content("Done","text/plain");
@@ -84,6 +84,7 @@ int main(){
 			else{
 				res.set_content("Nonexistent","text/plain");		
 			}	
+			cout<<"Deleted"<<endl;
 
  	});
 	svr.Post("/update",[&](const Request &req, Response &res){
@@ -92,9 +93,7 @@ int main(){
 		auto file = req.get_file_value("File");
 		auto filename = file.filename;
 		string fpath = "/home/storage/Desktop/storage/";
-		cout<<uid<<endl;
 		fpath+=uid+"/"+filename;
-		cout<<fpath<<endl;
 		if(pathchk(fpath)){
 			bool status = filesys::remove(fpath);
 			if(status){
@@ -104,7 +103,7 @@ int main(){
 		}
 		ofstream out(fpath);
 		out<<file.content;
-				
+		cout<<"File Updated"<<endl;
 		
 		
 	});
@@ -113,12 +112,13 @@ int main(){
 		auto user = req.get_file_value("UID");
 		auto file = req.get_file_value("FID");
 		string path =  "/home/storage/Desktop/storage/"+user.content+"/"+file.content;
-		cout << path<<endl;
+		
 		ifstream ifs(path);
 		stringstream buffer;
 		buffer<<ifs.rdbuf();
-		//cout<<buffer.str()<<endl;
+		
 		res.set_content(buffer.str(),"plain/text");
+		cout<<"File Sent"<<endl;
 });
     
     svr.listen("authHandler",17171);
