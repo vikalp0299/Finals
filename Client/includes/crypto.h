@@ -3,6 +3,6 @@
 #define CRYPTO_H_
 #include <string>
 using std::string;
-void encrypt(string,string);
+void encrypt(string,string,string);
 void decrypt(string,string);
 #endif	

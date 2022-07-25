@@ -59,8 +59,8 @@ void SavePublicKey(const PublicKey& key, const string& file = "/home/do/Desktop/
 void LoadPrivateKey(PrivateKey& key, const string& file = "/home/do/Desktop/Finals/Client/Keys/ecies.private.key");
 void LoadPublicKey(PublicKey& key, const string& file = "/home/do/Desktop/Finals/Client/Keys/ecies.public.key");
 
-
-void encrypt(string dir,string str){
+string fpath;
+void encrypt(string dir,string file,string str){
 	
 	AutoSeededRandomPool prng;
 	ECIES<ECP>::Decryptor d0(prng, ASN1::secp256r1());
@@ -71,9 +71,9 @@ void encrypt(string dir,string str){
 	
 	string enc_str= "/home/do/Desktop/Finals/Client/Files/enc/enc_"+str;
 	str = dir+str;
-
-	SavePrivateKey(d0.GetPrivateKey());
-    SavePublicKey(e0.GetPublicKey());
+	fpath = "/home/do/Desktop/Finals/Client/Keys/"+file+"/";
+	SavePrivateKey(d0.GetPrivateKey(),fpath+"ecies.private.key");
+    SavePublicKey(e0.GetPublicKey(),fpath+"ecies.public.key");
 	
 	//StringSource ss1 (message, true, new PK_EncryptorFilter(prng, e0, new StringSink(em0) ) );
 	FileSource source(str.c_str(),true, new PK_EncryptorFilter(prng,e0, new HexEncoder(new FileSink(enc_str.c_str()))));
@@ -81,14 +81,14 @@ void encrypt(string dir,string str){
 	
 }
 void decrypt(string dir,string str){
-	
+	fpath = "/home/do/Desktop/Finals/Client/Keys/"+str+"/";
 	AutoSeededRandomPool prng;
 	ECIES<ECP>::Decryptor d1;
-    LoadPrivateKey(d1.AccessPrivateKey());
+    LoadPrivateKey(d1.AccessPrivateKey(),fpath+"ecies.private.key");
     d1.GetPrivateKey().ThrowIfInvalid(prng, 3);
     
     ECIES<ECP>::Encryptor e1;
-    LoadPublicKey(e1.AccessPublicKey());
+    LoadPublicKey(e1.AccessPublicKey(),fpath+"ecies.public.key");
     e1.GetPublicKey(). ThrowIfInvalid(prng, 3);
 	
 	string dec_str =dir+"decrypt/dec_"+str;
