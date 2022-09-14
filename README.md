@@ -29,7 +29,7 @@ CRYPTO++
 ===========================
 Download link: https://github.com/weidai11/cryptopp (install the latest one)
 
-Make a Directory by the name **crypt** in **/usr/local**
+Make a Directory by the name **crypto** in **/usr/local**
 
 extract the files in the above mentioned directory
 
@@ -50,9 +50,14 @@ Download Link: https://github.com/yhirose/cpp-httplib
 
 Extract this in **/usr/local**
 
+**NOTE :-** Depending on the cpp-httplib current version we might have to change the name on headers.
+
 That's it.
 
 
+MYSQL CONFIGURATIONS
+====================================
 
+**To Be Continued**
 
 
